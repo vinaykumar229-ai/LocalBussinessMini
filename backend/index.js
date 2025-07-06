@@ -2,12 +2,12 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
 
-// Predefined SEO headline templates
+
 const headlines = [
   "Why {name} is {location}'s Sweetest Spot in 2025",
   "Discover {name}: A Hidden Gem in {location}",
@@ -15,13 +15,13 @@ const headlines = [
   "Locals Love {name}: See Why It's #1 in {location}",
 ];
 
-// Helper function to generate headline
+
 function generateHeadline(name, location) {
   const template = headlines[Math.floor(Math.random() * headlines.length)];
   return template.replace(/{name}/g, name).replace(/{location}/g, location);
 }
 
-// POST /business-data
+
 app.post('/business-data', (req, res) => {
   const { name, location } = req.body;
   const data = {
@@ -32,13 +32,13 @@ app.post('/business-data', (req, res) => {
   res.json(data);
 });
 
-// GET /regenerate-headline
+
 app.get('/regenerate-headline', (req, res) => {
   const { name, location } = req.query;
   res.json({ headline: generateHeadline(name, location) });
 });
 
-// Start server
+
 app.listen(PORT, () => {
   console.log(`Backend running at http://localhost:${PORT}`);
 });
